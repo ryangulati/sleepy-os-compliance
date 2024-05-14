@@ -1,24 +1,28 @@
 function searchCustomer() {
-  var searchCustomerId = document.getElementById('searchcustId').value;
-  var customerProfile = document.getElementById('profile-data');
+  var searchCustomerId = document.getElementById("searchcustId").value;
+  var customerProfile = document.getElementById("profile-data");
 
   if (!searchCustomerId) {
-      alert('Please enter a customer ID');
-      return;
+    alert("Please enter a customer ID");
+    return;
   }
 
   // Check if the customer ID matches the ID in the customer profile
-  var customerIdSpan = customerProfile.querySelector('#cust_id');
+  var customerIdSpan = customerProfile.querySelector("#cust_id");
   if (customerIdSpan && customerIdSpan.textContent === searchCustomerId) {
-      var email = customerProfile.querySelector('#email').textContent;
-      var phone = customerProfile.querySelector('#phone').textContent;
-      var address = customerProfile.querySelector('#address').textContent;
-      var payment = customerProfile.querySelector('#payment').textContent;
-      var stayHistNotes = customerProfile.querySelector('#stay_hist_notes').textContent;
-      var marketingConsent = customerProfile.querySelector('#marketingConsent').textContent;
-      var retentionExpiry = customerProfile.querySelector('#retention-expiry').textContent;
+    var email = customerProfile.querySelector("#email").textContent;
+    var phone = customerProfile.querySelector("#phone").textContent;
+    var address = customerProfile.querySelector("#address").textContent;
+    var payment = customerProfile.querySelector("#payment").textContent;
+    var stayHistNotes =
+      customerProfile.querySelector("#stay_hist_notes").textContent;
+    var marketingConsent =
+      customerProfile.querySelector("#marketingConsent").textContent;
+    var retentionExpiry =
+      customerProfile.querySelector("#retention-expiry").textContent;
+    var disclosure = customerProfile.querySelector("#disclosure").textContent;
 
-      var searchCustomerData = `
+    var searchCustomerData = `
           <h3>Customer Details</h3>
           <p><b>Customer ID:</b> ${searchCustomerId}</p>
           <p><b>Email:</b> ${email}</p>
@@ -28,14 +32,15 @@ function searchCustomer() {
           <p><b>Previous Stay Notes:</b> ${stayHistNotes}</p>
           <p><b>Data Retention Expiry:</b> ${retentionExpiry}</p>
           <p><b>Marketing Consent:</b> ${marketingConsent}</p>
+          <p><b>Disclosures:</b> ${disclosure}</p>
       `;
-      document.getElementById('searchCustomerData').innerHTML = searchCustomerData;
+    document.getElementById("searchCustomerData").innerHTML =
+      searchCustomerData;
   } else {
-      document.getElementById('searchCustomerData').textContent = 'Customer not found';
+    document.getElementById("searchCustomerData").textContent =
+      "Customer not found";
   }
 }
-
-
 
 function dataCaptureEnabled(retentionExpiryElement) {
   var dataCaptureStatus = document
@@ -45,7 +50,7 @@ function dataCaptureEnabled(retentionExpiryElement) {
   // Check if data capture is off, then display N/A
   if (dataCaptureStatus === "OFF") {
     retentionExpiryElement.textContent = "N/A";
-    toggleMarketingConsent(dataCaptureStatus);
+    toggleMarketingConsent();
     // marketingConsent.textContent = 'OFF';
     return false;
   }
@@ -65,10 +70,14 @@ function toggleDataCapture() {
   updateCustomerData();
 }
 
-function toggleMarketingConsent(dataCaptureStatus) {
-  if (dataCaptureStatus === "OFF") {
-    return;
-  }
+function toggleMarketingConsent() {
+  dataCaptureNotEnabled =
+    document.getElementById("dataCaptureStatus").getElementsByTagName("span")[0]
+      .textContent === "OFF"
+      ? true
+      : false;
+
+  if (dataCaptureNotEnabled) return;
   var status = document
     .getElementById("marketingConsentStatus")
     .getElementsByTagName("span")[0];
@@ -80,7 +89,7 @@ function toggleMarketingConsent(dataCaptureStatus) {
 function updateDataRetention() {
   var retentionDays = parseInt(document.getElementById("retentionDays").value);
   var retentionExpiryElement = document.getElementById("retention-expiry");
-  
+
   // Check if retentionDays is valid (greater than 0)
   if (retentionDays <= 0 || isNaN(retentionDays)) {
     alert("Please input a valid positive number");
@@ -113,7 +122,6 @@ function updateCustomerData() {
     .getElementById("marketingConsentStatus")
     .getElementsByTagName("span")[0].textContent;
   var retentionExpiry = document.getElementById("retention-expiry").textContent;
-
 
   var custid = document.getElementById("cust_id");
   var email = document.getElementById("email");
